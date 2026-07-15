@@ -68,7 +68,7 @@ CREATE TABLE calificaciones (
     p3            DOUBLE NOT NULL DEFAULT 0,
     PRIMARY KEY (id),
     UNIQUE KEY uq_alumno_materia (matricula, materia_clave),
-    CONSTRAINT fk_calif_alumno  FOREIGN KEY (matricula)     REFERENCES alumnos(matricula)   ON DELETE CASCADE,
+    CONSTRAINT fk_calif_alumno  FOREIGN KEY (matricula)     REFERENCES alumnos(matricula)   ON UPDATE CASCADE ON DELETE CASCADE,
     CONSTRAINT fk_calif_materia FOREIGN KEY (materia_clave) REFERENCES materias(clave)       ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

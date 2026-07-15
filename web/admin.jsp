@@ -213,8 +213,8 @@
                 <div class="table_wrap">
                 <table class="admin_tabla">
                     <colgroup>
-                        <col style="width:13%"><col style="width:24%"><col style="width:25%">
-                        <col style="width:16%"><col style="width:22%">
+                        <col style="width:12%"><col style="width:22%"><col style="width:21%">
+                        <col style="width:14%"><col style="width:31%">
                     </colgroup>
                     <thead><tr><th>Matrícula</th><th>Nombre completo</th><th>Correo</th><th>Verificado</th><th>Acciones</th></tr></thead>
                     <tbody>
@@ -233,7 +233,14 @@
                                 <% } %>
                             </td>
                             <td>
-                                <form method="post" action="Servlet_Admin" style="display:inline;"
+                                <button type="button" class="btn_admin"
+                                        style="background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;"
+                                        data-matricula="<%= esc(a.getMatricula()) %>"
+                                        data-nombre="<%= esc(a.getNombre()) %>"
+                                        data-paterno="<%= esc(a.getPaterno()) %>"
+                                        data-materno="<%= esc(a.getMaterno()) %>"
+                                        onclick="abrirEditarAlumno(this)">Editar</button>
+                                <form method="post" action="Servlet_Admin" style="display:inline;margin-left:5px;"
                                       onsubmit="return confirm('¿Eliminar al alumno <%= esc(a.getMatricula()) %>? También se borrarán sus calificaciones.');">
                                     <input type="hidden" name="accion" value="EliminarAlumno">
                                     <input type="hidden" name="matricula" value="<%= esc(a.getMatricula()) %>">
@@ -403,6 +410,59 @@
 
         </div>
 
+        <%-- ══════════════════════════════════════════
+             MODAL: Editar Alumno
+        ══════════════════════════════════════════ --%>
+        <div id="modal_editar_alumno" class="modal_overlay" style="display:none;"
+             onclick="if(event.target===this)cerrarEditarAlumno()">
+            <div class="modal_card">
+                <div class="modal_header">
+                    <h3>Editar Alumno</h3>
+                    <button type="button" class="modal_close" onclick="cerrarEditarAlumno()" aria-label="Cerrar">&times;</button>
+                </div>
+                <form method="post" action="Servlet_Admin">
+                    <div class="modal_body">
+                        <div class="modal_field">
+                            <label for="em_tfMatricula">Matrícula</label>
+                            <div class="input_wrapper">
+                                <input type="text" name="tfMatricula" id="em_tfMatricula" required
+                                       style="padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;width:100%;">
+                            </div>
+                            <span class="modal_hint">Si la cambias, el correo se actualiza a la nueva matrícula@utrng.edu.mx y el alumno queda sin verificar otra vez.</span>
+                        </div>
+                        <input type="hidden" name="accion" value="EditarAlumno">
+                        <input type="hidden" name="tfMatriculaOld" id="em_tfMatriculaOld">
+
+                        <div class="modal_field">
+                            <label for="em_tfNombre">Nombre</label>
+                            <div class="input_wrapper">
+                                <input type="text" name="tfNombre" id="em_tfNombre" required
+                                       style="padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;width:100%;">
+                            </div>
+                        </div>
+                        <div class="modal_field">
+                            <label for="em_tfPaterno">Apellido paterno</label>
+                            <div class="input_wrapper">
+                                <input type="text" name="tfPaterno" id="em_tfPaterno" required
+                                       style="padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;width:100%;">
+                            </div>
+                        </div>
+                        <div class="modal_field">
+                            <label for="em_tfMaterno">Apellido materno</label>
+                            <div class="input_wrapper">
+                                <input type="text" name="tfMaterno" id="em_tfMaterno"
+                                       style="padding:11px 14px;border:1.5px solid var(--border);border-radius:8px;width:100%;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal_footer">
+                        <button type="button" class="btn_modal_cancel" onclick="cerrarEditarAlumno()">Cancelar</button>
+                        <button type="submit" class="btn_modal_save">Guardar cambios</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div id="pie_pagina">
             <p>Sistema de Calificaciones</p>
         </div>
@@ -546,6 +606,18 @@
             });
 
         })();
+
+        function abrirEditarAlumno(btn) {
+            document.getElementById('em_tfMatricula').value    = btn.dataset.matricula;
+            document.getElementById('em_tfMatriculaOld').value = btn.dataset.matricula;
+            document.getElementById('em_tfNombre').value       = btn.dataset.nombre;
+            document.getElementById('em_tfPaterno').value      = btn.dataset.paterno;
+            document.getElementById('em_tfMaterno').value      = btn.dataset.materno;
+            document.getElementById('modal_editar_alumno').style.display = 'flex';
+        }
+        function cerrarEditarAlumno() {
+            document.getElementById('modal_editar_alumno').style.display = 'none';
+        }
         </script>
 
     </body>

@@ -107,6 +107,43 @@ public class DAOAlumno {
         return false;
     }
 
+    /**
+     * Modifica los datos del alumno, incluida la matrícula. Si la matrícula cambia:
+     *  - el cambio se propaga a calificaciones (FK con ON UPDATE CASCADE).
+     *  - el correo (si ya tenía uno) se recalcula como nuevaMatricula@utrng.edu.mx.
+     *  - validar/status se reinician, porque ese correo aún no se ha confirmado con código.
+     */
+    public boolean editar(String matriculaActual, String matriculaNueva, String nombre, String paterno, String materno) {
+        boolean cambioMatricula = matriculaNueva != null && !matriculaNueva.equals(matriculaActual);
+
+        String sql = cambioMatricula
+                ? "UPDATE alumnos SET matricula = ?, nombre = ?, paterno = ?, materno = ?, " +
+                  "correo = CASE WHEN correo IS NOT NULL THEN CONCAT(?, '@utrng.edu.mx') ELSE NULL END, " +
+                  "validar = 0, status = 'pendiente' WHERE matricula = ?"
+                : "UPDATE alumnos SET nombre = ?, paterno = ?, materno = ? WHERE matricula = ?";
+
+        try (Connection con = ConexionMySQL.getConexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            if (cambioMatricula) {
+                ps.setString(1, matriculaNueva);
+                ps.setString(2, nombre);
+                ps.setString(3, paterno);
+                ps.setString(4, materno);
+                ps.setString(5, matriculaNueva);
+                ps.setString(6, matriculaActual);
+            } else {
+                ps.setString(1, nombre);
+                ps.setString(2, paterno);
+                ps.setString(3, materno);
+                ps.setString(4, matriculaActual);
+            }
+            return ps.executeUpdate() > 0;
+        } catch (SQLException ex) {
+            System.err.println("Error al editar alumno: " + ex.getMessage());
+        }
+        return false;
+    }
+
     public boolean aceptar(String matricula) {
         return cambiarStatus(matricula, "activo");
     }

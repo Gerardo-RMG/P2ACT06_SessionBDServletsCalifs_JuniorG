@@ -98,6 +98,14 @@ public class Servlet_Admin extends HttpServlet {
                 new DAOAlumno().agregar(a);
                 return true;
             }
+            case "EditarAlumno":
+                new DAOAlumno().editar(
+                        request.getParameter("tfMatriculaOld"),
+                        request.getParameter("tfMatricula"),
+                        request.getParameter("tfNombre"),
+                        request.getParameter("tfPaterno"),
+                        request.getParameter("tfMaterno"));
+                return true;
             case "EliminarAlumno":
                 new DAOAlumno().eliminar(request.getParameter("matricula"));
                 return true;
