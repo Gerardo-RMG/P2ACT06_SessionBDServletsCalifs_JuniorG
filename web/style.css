@@ -1490,9 +1490,12 @@ body.bg_auth #login_card
      lectura por materia, en grid (no apiladas) ─────────── */
 .calif_general_grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
     gap: 20px;
     padding: 0 24px 24px;
+}
+@media (max-width: 720px) {
+    .calif_general_grid { grid-template-columns: 1fr; }
 }
 .materia_calif_card {
     background: var(--card);
