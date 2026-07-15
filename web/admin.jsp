@@ -387,13 +387,13 @@
                                        if (!c.getMateriaClave().equals(m.getClave())) continue;
                                        tieneFilas = true;
                                 %>
-                                <tr>
+                                <tr data-calif-id="<%= c.getId() %>">
                                     <td><%= esc(c.getMatricula()) %></td>
                                     <td class="td_clip"><%= esc(c.getAlumnoNombre()) %></td>
-                                    <td><%= c.getP1() %></td>
-                                    <td><%= c.getP2() %></td>
-                                    <td><%= c.getP3() %></td>
-                                    <td><%= String.format("%.2f", c.calcProm()) %></td>
+                                    <td class="vg_p1"><%= c.getP1() %></td>
+                                    <td class="vg_p2"><%= c.getP2() %></td>
+                                    <td class="vg_p3"><%= c.getP3() %></td>
+                                    <td class="vg_prom"><%= String.format("%.2f", c.calcProm()) %></td>
                                 </tr>
                                 <% } if (!tieneFilas) { %>
                                 <tr><td colspan="6" style="text-align:center;color:var(--text-muted);">Sin calificaciones</td></tr>
@@ -585,6 +585,18 @@
                             if (data.ok) {
                                 var promCell = tr.querySelector('.td_prom');
                                 if (promCell) promCell.textContent = data.prom;
+
+                                // Reflejar el mismo cambio en la Vista general (esa tabla
+                                // se pintó en el servidor al cargar la página y no se
+                                // recarga con este guardado por AJAX).
+                                var vgRow = document.querySelector('#calif_vista_general tr[data-calif-id="' + id + '"]');
+                                if (vgRow) {
+                                    vgRow.querySelector('.vg_p1').textContent   = p1;
+                                    vgRow.querySelector('.vg_p2').textContent   = p2;
+                                    vgRow.querySelector('.vg_p3').textContent   = p3;
+                                    vgRow.querySelector('.vg_prom').textContent = data.prom;
+                                }
+
                                 if (estado) {
                                     estado.style.color = '#16a34a';
                                     estado.textContent = '✓ Guardado';
