@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
+    <servlet>
+        <servlet-name>Servlet_Login</servlet-name>
+        <servlet-class>control.Servlet_Login</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet_Login</servlet-name>
+        <url-pattern>/Servlet_Login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Servlet_Registro</servlet-name>
+        <servlet-class>control.Servlet_Registro</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet_Registro</servlet-name>
+        <url-pattern>/Servlet_Registro</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Servlet_Verificar</servlet-name>
+        <servlet-class>control.Servlet_Verificar</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet_Verificar</servlet-name>
+        <url-pattern>/Servlet_Verificar</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Servlet_AlumnoRegistro</servlet-name>
+        <servlet-class>control.Servlet_AlumnoRegistro</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet_AlumnoRegistro</servlet-name>
+        <url-pattern>/Servlet_AlumnoRegistro</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Servlet_Validar</servlet-name>
+        <servlet-class>control.Servlet_Validar</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet_Validar</servlet-name>
+        <url-pattern>/Servlet_Validar</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>Servlet_Admin</servlet-name>
+        <servlet-class>control.Servlet_Admin</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>Servlet_Admin</servlet-name>
+        <url-pattern>/Servlet_Admin</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>Servlet_Login</welcome-file>
+    </welcome-file-list>
+</web-app>
